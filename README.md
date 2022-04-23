@@ -14,7 +14,7 @@ cd rabbit-shell
 pip install -r requirements.txt
 ```
 
-
+###### The go to tool file is rabbit.py.
 
 
 
@@ -30,7 +30,9 @@ python rabbit.py --server -host 192.168.0.111 -port 9999
 > - -host is server or device ip address
 > - -port is wich port you'll be listening to
 
+###### There'll be a seperate socket for file transfering the port is whaever enter - 1, If main server port 9999
 
+###### file transfer port well be 9998, the files are going to trans to wherever your location is.
 
 
 
@@ -44,7 +46,9 @@ python rabbit.py --client -host 192.168.0.111 -port 9999
 > - -host is server or device ip address
 > - -port is wich port you'll be listening to
 
-###### This will generate an exe inside dist directory.
+###### This will generate an exe inside a dist directory you may delete build folder, when the exe runs It'll create
+
+###### a shortcut in startup folder if the system is windows.
 
 
 
@@ -58,7 +62,7 @@ python rabbit.py --client -host 192.168.0.111 -port 9999
 >: server
 ```
 
-
+###### Server host and port also the tool version and tool name.
 
 ### To list all clients.
 
@@ -66,15 +70,17 @@ python rabbit.py --client -host 192.168.0.111 -port 9999
 >: list
 ```
 
+###### List online and offline clients use, device address, and more.
 
-
-### To set and controll a client device by client use number from the list.
+### To set and controll a client console by client use number from the list.
 
 ```
 >: set 0
 ```
 
+###### To controle client console you can git client set number from using the command list
 
+###### and use the command >: set (client use number).
 
 ### Quit client session.
 
@@ -82,7 +88,7 @@ python rabbit.py --client -host 192.168.0.111 -port 9999
 >: quit
 ```
 
-
+###### Quit client console without losing connection with client, used to things like changing to another set or gain info.
 
 ### Send file to client.
 
@@ -90,7 +96,7 @@ python rabbit.py --client -host 192.168.0.111 -port 9999
 >: file:filename
 ```
 
-
+###### 
 
 ### Request file from client.
 
@@ -108,7 +114,12 @@ reqfile:filename
 
 
 
-made with depression <3
+
+
+## About.
 
 by [@greedalbadi](https://www.instagram.com/greedalbadi/)
 
+This tool uses MIT license.
+
+made with depression <3
