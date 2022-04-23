@@ -30,6 +30,7 @@ QUIT = "quit"
 CLEAR = ["clear", "cls"]
 SERVERINFO = "server"
 SEND_FILE = "file"
+BANNER_CLEAR = "bclear"
 LIST_CLIENTS = "list"
 SET_CLIENT = "set"
 TIMEOUT = 12
