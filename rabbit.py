@@ -48,7 +48,7 @@ class main:
             print("Generating client exe please wait...")
 
             if self.generate_client() == 0:
-                print("Done generating client exe.")
+                print("Done generating client exe, check dist folder.")
             else:
                 print("Failed to generate.")
 
