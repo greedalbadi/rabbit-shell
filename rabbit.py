@@ -23,6 +23,7 @@ SOFTWARE.
 """
 from background import editor
 from background import generate
+from background import backstuff
 import argparse
 from data import about
 from data.banners import banner
@@ -54,7 +55,9 @@ class main:
     def run_server(self, host: str, port: int):
 
         from server import server
+
         mbanner = banner.main_banner(host, port, about.__version__, about.__name__)
+        backstuff.clear()
         print(mbanner)
         server = server.server(host, port)
         server.main()
