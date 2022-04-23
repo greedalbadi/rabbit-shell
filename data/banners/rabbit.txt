@@ -1,0 +1,15 @@
+   /gg\           /gg\
+  /g.gg\         /gg.g\
+ |gg..gg\       /gg..gg|
+ |gg...g|       |g...gg| 
+ |gg...g|       |g...gg|
+  \gg..g/       \g..gg/     n. NAME
+   |gg.gvgggggggvg.gg|      v. VERSION
+  /ggggggggggggggggggg\ 
+ /gggg(((ggggggg)))gggg\    a. ADDRESS
+|ggggg....ggggg....ggggg|   p. PORT
+|ggggg....ggggg....ggggg|
+|ggcccgggg\___/ggggcccgg|   #important commands
+|ggcccccgggg|ggggcccccgg|    -server   -list
+  \gcccggg\---/gggcccg/      -set      -quit
+     \ggggggggggggg/
