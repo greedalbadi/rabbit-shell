@@ -30,6 +30,7 @@ sys.path.insert(0, '..')
 
 from controller import server_side
 from data import data
+from data.banners import banner
 from data import basic,  about
 from background import backstuff
 filetrans = server_side.filetrans()
@@ -214,6 +215,10 @@ class server:
                 elif command in data.CLEAR:
                     backstuff.clear()
 
+                elif command == data.BANNER_CLEAR:
+                        backstuff.clear()
+                        BANNER = banner.main_banner(self.host, self.port, about.__version__, about.__name__)
+                        print(BANNER)
                 elif command == data.SERVERINFO:
                     dic = {
                         "name": about.__name__,
