@@ -33,5 +33,14 @@ def isfile_path(path):
 
     return os.path.isfile(path)
 
+def fixed_path(path):
 
+    if os.name == "nt":
+        if "/" in path:
+            return path.replace("/", "\\")
+    else:
+        if "\\" in path:
+            return path.replace("\\", "/")
+
+    return path
 
