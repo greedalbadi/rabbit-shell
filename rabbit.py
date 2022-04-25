@@ -21,6 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import os
+
 from background import editor
 from background import generate
 from background import backstuff
@@ -64,7 +66,9 @@ class main:
 
     def generate_client(self):
         generator = generate.generator()
-        return generator.to_exe("client\client.py")
+        path = "client\\client.py"
+        return generator.to_exe(backstuff.fixed_path(path))
+
 
 
 
