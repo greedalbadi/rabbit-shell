@@ -21,8 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-
+import datetime
 import sys
 import threading
 
@@ -47,6 +46,7 @@ class server:
         """
         self.clients = []
         self.filetrans_clients = []
+        self.joined_date = []
         self.addresses = []
         self.current_client = None
         self.server = server_side.create_socket(host, port)
@@ -97,6 +97,7 @@ class server:
                 print(f"Client connected: {address}")
                 self.clients.append(client)
                 self.addresses.append(address)
+                self.joined_date.append(str(datetime.datetime.now()))
             except:
                 pass
 
@@ -130,7 +131,7 @@ class server:
 
         :return: table
         """
-        return server_side.checkon_clients(self.clients, self.addresses)
+        return server_side.checkon_clients(self.clients, self.addresses, self.joined_date)
 
 
     def sendcommand(self, data: str):

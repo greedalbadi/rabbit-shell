@@ -28,14 +28,15 @@ class server_side:
         return data.encode(formate)
 
 
-    def checkon_clients(self, clients, addresses):
+    def checkon_clients(self, clients, addresses, dates):
         table = prettytable.PrettyTable()
-        table.field_names = [data.USENUM, data.IP_ADDRESS, data.STATUS]
+        table.field_names = [data.USENUM, data.IP_ADDRESS, data.STATUS, "JOINED"]
 
 
         for client in clients:
             index = clients.index(client)
             address = addresses[int(index)]
+            date = dates[int(index)]
             try:
                 ping_data = self.encode_data(data.CLIENT_PING_DATA)
                 client.send(ping_data)
@@ -43,7 +44,7 @@ class server_side:
             except:
                 status = data.OFFLINE_STATUS
 
-            table.add_row([index, address, status])
+            table.add_row([index, address, status, date])
 
         return table
 
