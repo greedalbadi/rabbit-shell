@@ -27,7 +27,7 @@ from background import editor
 from background import generate
 from background import backstuff
 import argparse
-from data import about
+from data import about, basic
 from data.banners import banner
 class main:
 
@@ -41,11 +41,23 @@ class main:
         parser.add_argument("-port", "--port", help="Port")
 
         args = parser.parse_args()
+
+        if args.server or args.client:
+            if not args.host:
+                host = basic.HOST
+            else:
+                host = args.host
+            if not args.port:
+                port = basic.PORT
+            else:
+                port = args.port
+
+
         if args.server:
-            self.edit(args.host, args.port)
-            self.run_server(args.host, args.port)
+            self.edit(host, port)
+            self.run_server(host, port)
         elif args.client:
-            self.edit(args.host, args.port)
+            self.edit(host, port)
 
             print("Generating client exe please wait...")
 
