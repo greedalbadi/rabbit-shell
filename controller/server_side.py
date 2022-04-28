@@ -1,3 +1,4 @@
+import os
 import socket
 import pickle
 import prettytable
@@ -5,8 +6,7 @@ import sys
 sys.path.insert(0, '..')
 
 from data import data
-
-
+from data.data import BUFFER_SIZE
 
 
 class server_side:
@@ -67,7 +67,6 @@ class filetrans:
     global serverside
     serverside = server_side()
 
-
     def create_filetrans_socket(self, host: str, port: int):
 
         return serverside.create_socket(host, int(port))
@@ -75,9 +74,8 @@ class filetrans:
 
 
     def sendfile(self, client, filename):
-
         file = open(filename, "rb")
-        bytes = file.read(data.BUFFER_SIZE)
+        bytes = file.read(BUFFER_SIZE)
         ls = [filename, bytes]
         data = pickle.dumps(ls)
         client.send(data)
@@ -86,19 +84,17 @@ class filetrans:
 
 
     def recvfile(self, client):
-
         while True:
             try:
-
-                res = client.recv(data.BUFFER_SIZE)
+                res = client.recv(BUFFER_SIZE)
                 filename, data = pickle.loads(res)
 
                 with open(filename, "wb") as file:
 
                     file.write(data)
                     file.close()
-            except:
-                continue
+            except Exception as e:
+                print(e)
 
 
 
