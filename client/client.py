@@ -109,7 +109,7 @@ class Rever:
         """
         data = client_side.filetrans_readprocess(filename, dt.BUFFER_SIZE)
         self.filetrans_server.send(data)
-        self.send(f"FILE: {filename} sent from {socket.gethostbyname(socket.gethostname())}\n")
+        self.send(f"FILE: {filename} sending from {socket.gethostbyname(socket.gethostname())}\n")
         return
 
     def shortcut(self, path, dir):
