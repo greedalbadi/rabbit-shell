@@ -1,7 +1,7 @@
-
+from .backstuff import fixed_path
 
 def edit_basicvar(filename, var, data):
-
+    filename = fixed_path(filename)
     lines = []
     file = open(filename, "r")
     for line in file.read().splitlines():
