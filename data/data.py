@@ -36,7 +36,7 @@ SET_CLIENT = "set"
 TIMEOUT = 12
 
 # paths
-
+CLIENT_NAME = "alv.exe"
 WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 
 
