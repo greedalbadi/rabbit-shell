@@ -37,8 +37,8 @@ class main:
         parser = argparse.ArgumentParser()
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
-        parser.add_argument("-host", "--host", help="Host")
-        parser.add_argument("-port", "--port", help="Port")
+        parser.add_argument("-host", "--host", help="Server host")
+        parser.add_argument("-port", "--port", help="Server port")
 
         args = parser.parse_args()
 

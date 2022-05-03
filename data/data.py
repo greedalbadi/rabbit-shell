@@ -42,7 +42,7 @@ WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Wi
 
 
 
-def json_change_value(key, value):
+'''def json_change_value(key, value):
     file = open("data.json", "r")
     data = json.load(file)
     file.close()
@@ -57,7 +57,7 @@ def json_get_value(key):
     file = open("data\data.json", "r")
     data = json.load(file)
     file.close()
-    return data[0][str(key)]
+    return data[0][str(key)]'''
 
 '''print(json_change_value("version", True))
 '''
