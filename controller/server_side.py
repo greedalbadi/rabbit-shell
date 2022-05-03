@@ -93,8 +93,8 @@ class filetrans:
 
                     file.write(data)
                     file.close()
-            except Exception as e:
-                print(e)
+            except Exception:
+                continue
 
 
 
