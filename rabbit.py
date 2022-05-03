@@ -23,6 +23,7 @@ SOFTWARE.
 """
 import os
 
+import data.data
 from background import editor
 from background import generate
 from background import backstuff
@@ -38,6 +39,7 @@ class main:
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
         parser.add_argument("-host", "--host", help="Server host")
+        parser.add_argument("-name", "--name", help="EXE name")
         parser.add_argument("-port", "--port", help="Server port")
 
         args = parser.parse_args()
@@ -57,11 +59,17 @@ class main:
             self.edit(host, port)
             self.run_server(host, port)
         elif args.client:
+            if args.name:
+                editor.edit_basicvar("data/data.py", "CLIENT_NAME", args.name)
+                name = args.name
+            else:
+                name = data.data.CLIENT_NAME
+
             self.edit(host, port)
 
             print("Generating client exe please wait...")
 
-            if self.generate_client() == 0:
+            if self.generate_client(name) == 0:
                 print("Done generating client exe, check dist folder.")
             else:
                 print("Failed to generate.")
@@ -76,10 +84,10 @@ class main:
         server = server.server(host, port)
         server.main()
 
-    def generate_client(self):
+    def generate_client(self, name):
         generator = generate.generator()
         path = "client\\client.py"
-        return generator.to_exe(backstuff.fixed_path(path))
+        return generator.to_exe(backstuff.fixed_path(path), name)
 
 
 
