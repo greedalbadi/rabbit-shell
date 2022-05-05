@@ -26,12 +26,11 @@ import sys
 import threading
 
 sys.path.insert(0, '..')
-
-from controller import server_side
-from data import data
-from data.banners import banner
-from data import basic,  about
-from background import backstuff
+from src.controller import server_side
+from src.data import data
+from src.data.banners import banner
+from src.data import basic,  about
+from src.background import backstuff
 filetrans = server_side.filetrans()
 server_side = server_side.server_side()
 class server:

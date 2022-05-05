@@ -23,13 +23,12 @@ SOFTWARE.
 """
 import os
 
-import data.data
-from background import editor
-from background import generate
-from background import backstuff
+from src import data, about, basic
+from src import editor
+from src import generate
+from src import fixed_path, clear
 import argparse
-from data import about, basic
-from data.banners import banner
+from src import banner
 class main:
 
     def __init__(self):
@@ -63,7 +62,7 @@ class main:
                 editor.edit_basicvar("data/data.py", "CLIENT_NAME", args.name)
                 name = args.name
             else:
-                name = data.data.CLIENT_NAME
+                name = data.CLIENT_NAME
 
             self.edit(host, port)
 
@@ -71,7 +70,7 @@ class main:
             if args.icon:
                 res = self.generate_client(name, args.icon)
             else:
-                res = self.generate_client(name, backstuff.fixed_path(data.data.DEFAULT_ICON))
+                res = self.generate_client(name, fixed_path(data.DEFAULT_ICON))
             if res == 0:
                 print("Done generating client exe, check 'dist' folder.")
             else:
@@ -79,25 +78,25 @@ class main:
 
     def run_server(self, host: str, port: int):
 
-        from server import server
+        from src import server
 
         mbanner = banner.main_banner(host, port, about.__version__, about.__name__)
-        backstuff.clear()
+        clear()
         print(mbanner)
         server = server.server(host, port)
         server.main()
 
     def generate_client(self, name, icon):
         generator = generate.generator()
-        path = "client\\client.py"
-        return generator.to_exe(backstuff.fixed_path(path), name, icon)
+        path = "src\\client\\client.py"
+        return generator.to_exe(fixed_path(path), name, icon)
 
 
 
 
     def edit(self, host: str, port: str):
-        editor.edit_basicvar("data/basic.py", "HOST", host)
-        editor.edit_basicvar("data/basic.py", "PORT", int(port))
+        editor.edit_basicvar("src/data/basic.py", "HOST", host)
+        editor.edit_basicvar("src/data/basic.py", "PORT", int(port))
         return
 
 if __name__ == "__main__":
