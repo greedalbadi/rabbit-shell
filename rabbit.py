@@ -38,10 +38,10 @@ class main:
         parser = argparse.ArgumentParser()
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
-        parser.add_argument("-host", "--host", help="Server host")
-        parser.add_argument("-name", "--name", help="EXE name")
-        parser.add_argument("-port", "--port", help="Server port")
-
+        parser.add_argument("-a", "--host", help="Server host")
+        parser.add_argument("-n", "--name", help="EXE name")
+        parser.add_argument("-p", "--port", help="Server port")
+        parser.add_argument("-i", "--icon", help="EXE icon path")
         args = parser.parse_args()
 
         if args.server or args.client:
@@ -68,9 +68,12 @@ class main:
             self.edit(host, port)
 
             print("Generating client exe please wait...")
-
-            if self.generate_client(name) == 0:
-                print("Done generating client exe, check dist folder.")
+            if args.icon:
+                res = self.generate_client(name, args.icon)
+            else:
+                res = self.generate_client(name, backstuff.fixed_path(data.data.DEFAULT_ICON))
+            if res == 0:
+                print("Done generating client exe, check 'dist' folder.")
             else:
                 print("Failed to generate.")
 
@@ -84,10 +87,10 @@ class main:
         server = server.server(host, port)
         server.main()
 
-    def generate_client(self, name):
+    def generate_client(self, name, icon):
         generator = generate.generator()
         path = "client\\client.py"
-        return generator.to_exe(backstuff.fixed_path(path), name)
+        return generator.to_exe(backstuff.fixed_path(path), name, icon)
 
 
 
