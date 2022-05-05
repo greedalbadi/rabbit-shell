@@ -1,8 +1,8 @@
 import os
 import subprocess
-def startup_shortcut(path, dir):
+def startup_shortcut(path, dir, shortcut):
     if isfile_path(dir + "\\" + path) != True:
-        text = f'start {os.getcwd()}\\client.exe"'
+        text = f'start {os.getcwd()}\\{shortcut}.exe"'
         os.chdir(dir)
         to = open(path, "w+")
         to.write(text)

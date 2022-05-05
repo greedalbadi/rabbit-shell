@@ -8,7 +8,7 @@ CODE_FORMATE = "UTF-8"
 
 INPUT_MODE = ">: "
 FILETRANS_PORT = 1
-
+CAM_FRAME_PORT = 2
 
 ONLINE_STATUS = "ONLINE"
 OFFLINE_STATUS = "OFFLINE"
@@ -36,13 +36,13 @@ SET_CLIENT = "set"
 TIMEOUT = 12
 
 # paths
-
+CLIENT_NAME = "alvd"
 WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
+DEFAULT_ICON = "data\\images\\logoicon.ico"
 
 
 
-
-def json_change_value(key, value):
+'''def json_change_value(key, value):
     file = open("data.json", "r")
     data = json.load(file)
     file.close()
@@ -57,7 +57,7 @@ def json_get_value(key):
     file = open("data\data.json", "r")
     data = json.load(file)
     file.close()
-    return data[0][str(key)]
+    return data[0][str(key)]'''
 
 '''print(json_change_value("version", True))
 '''

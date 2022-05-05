@@ -23,12 +23,12 @@ pip install -r requirements.txt
 ## Run server and start listening.
 
 ```bash
-python rabbit.py --server -host 192.168.0.111 -port 9999
+python rabbit.py --server -a 192.168.0.111 -p 9999
 ```
 
 > - --server is args container
-> - -host is server or device ip address
-> - -port is wich port you'll be listening to
+> - -a is server or device ip address
+> - -p is wich port you'll be listening to
 
 ###### There'll be a seperate socket for file transfering the port is whaever enter - 1, If main server port 9999
 
@@ -39,12 +39,14 @@ python rabbit.py --server -host 192.168.0.111 -port 9999
 ## Generate exe for the target.
 
 ```bash
-python rabbit.py --client -host 192.168.0.111 -port 9999
+python rabbit.py --client -a 192.168.0.111 -p 9999
 ```
 
 > - --client is args container
-> - -host is server or device ip address
-> - -port is wich port you'll be listening to
+> - -a is server or device ip address
+> - -p is wich port you'll be listening to
+> - -i (optional) exe icon
+> - -n (optional) exe name
 
 ###### This will generate an exe inside a dist directory you may delete build folder, when the exe runs It'll create
 
