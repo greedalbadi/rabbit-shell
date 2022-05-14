@@ -25,12 +25,11 @@ import datetime
 import sys
 import threading
 
-sys.path.insert(0, '..')
-from src.controller import server_side
-from src.data import data
-from src.data.banners import banner
-from src.data import basic,  about
-from src.background import backstuff
+from rabbit_shell.controller import server_side
+from rabbit_shell.data import data
+from rabbit_shell.data.banners import banner
+from rabbit_shell.data import basic,  about
+from rabbit_shell.background import backstuff
 filetrans = server_side.filetrans()
 server_side = server_side.server_side()
 class server:

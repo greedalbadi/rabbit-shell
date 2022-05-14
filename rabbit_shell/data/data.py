@@ -36,9 +36,9 @@ SET_CLIENT = "set"
 TIMEOUT = 12
 
 # paths
-CLIENT_NAME = "alvd"
+CLIENT_NAME = "client"
 WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
-DEFAULT_ICON = "src\\data\\images\\logoicon.ico"
+DEFAULT_ICON = "data\\images\\logoicon.ico"
 
 
 

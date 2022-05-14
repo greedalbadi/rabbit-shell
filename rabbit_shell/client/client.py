@@ -32,10 +32,10 @@ import threading
 import sys
 import time
 sys.path.insert(0, '..')
-from src.data import data as dt
-from src.data import basic
-from src.controller import client_side
-from src.background import backstuff
+from rabbit_shell.data import data as dt
+from rabbit_shell.data import basic
+from rabbit_shell.controller import client_side
+from rabbit_shell.background import backstuff
 client_side = client_side.client_side()
 class Rever:
 

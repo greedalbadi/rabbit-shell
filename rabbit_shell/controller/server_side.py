@@ -2,10 +2,9 @@ import socket
 import pickle
 import prettytable
 import sys
-sys.path.insert(0, '..')
 
-from src.data import data
-from src.data.data import BUFFER_SIZE
+from rabbit_shell.data import data
+from rabbit_shell.data.data import BUFFER_SIZE
 
 
 class server_side:
