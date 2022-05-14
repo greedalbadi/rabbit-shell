@@ -1,4 +1,6 @@
 """from . import data, about, basic, editor, generate, fixed_path, clear, banner"""
+import sys
+
 from .data import data
 from .background import editor
 from .background import generate
@@ -13,6 +15,7 @@ class main:
     def __init__(self):
 
 
+
         parser = argparse.ArgumentParser()
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
@@ -24,14 +27,18 @@ class main:
 
         if args.server or args.client:
             if not args.host:
-                host = basic.HOST
+                if len(basic.HOST) != 0:
+                    host = basic.HOST
+                else:
+                    self.help_break(parser, message_type="ERROR", message="Found no HOST address info")
             else:
-                host = args.host
-            if not args.port:
+                port = args.host
+            if len(basic.PORT) != 0:
                 port = basic.PORT
             else:
-                port = args.port
-
+                self.help_break(parser, message_type="ERROR", message="Found no PORT address info")
+        else:
+            self.help_break(parser, message_type="ERROR", message="Found nor server or client options")
 
         if args.server:
             self.edit(host, port)
@@ -55,6 +62,15 @@ class main:
             else:
                 print("Failed to generate.")
 
+    def help_break(self, parser, message_type=False, message=False, host="HOST", port="PORT"):
+        mbanner = banner.main_banner(host=host, port=port, version=about.__version__, name=about.__name__)
+        print(mbanner)
+        print(f"{message_type}: {message}")
+        print("<<======== HELP =========>>")
+        parser.print_help()
+        sys.exit(0)
+
+        parser.print_help()
     def run_server(self, host: str, port: int):
 
 
