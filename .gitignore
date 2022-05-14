@@ -4,3 +4,6 @@ venv/
 .idea/
 *.spec
 build/
+rabbit_shell.egg-info/
+rbb.egg-info/
+dist/
