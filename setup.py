@@ -21,7 +21,9 @@ setup(
     author_email=__author_email__,
 
     project_urls={
-      'Source': 'https://github.com/greedalbadi/rabbit-shell',
+        'Source': 'https://github.com/greedalbadi/rabbit-shell',
+        'Report Bugs': 'https://github.com/greedalbadi/rabbit-shell/issues',
+        'Documentation': 'https://github.com/greedalbadi/rabbit-shell/blob/dev/README.md'
     },
     include_package_data=True,
     license='MIT',
