@@ -29,7 +29,7 @@ install using git clone.
 ```bash
 rsb --help
 ```
-print available arguments with a tiny explain.
+print available arguments with a tiny explain or just rsb.
 
 ## Run server and start listening.
 
