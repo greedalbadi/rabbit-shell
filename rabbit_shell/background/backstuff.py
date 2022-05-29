@@ -1,5 +1,6 @@
 import os
 import subprocess
+from rabbit_shell.data import about, basic
 def startup_shortcut(path, dir, shortcut):
     if isfile_path(dir + "\\" + path) != True:
         text = f'start {os.getcwd()}\\{shortcut}.exe"'
@@ -9,6 +10,15 @@ def startup_shortcut(path, dir, shortcut):
         to.flush()
         to.close()
     return
+
+def server_info():
+    dic = {
+        "name": about.__name__,
+        "version": about.__version__,
+        "host": basic.HOST,
+        "port": basic.PORT
+    }
+    return dic
 
 def runcommand(command: str):
 
