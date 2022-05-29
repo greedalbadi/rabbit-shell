@@ -99,6 +99,9 @@ class main:
         parser.print_help()
 
     def run_auther(self, host: str, port: int, key):
+        mbanner = banner.main_banner(host, port, about.__version__, about.__name__)
+        clear()
+        print(mbanner)
         c = Auther(str(host), int(port), key)
         c.runtime()
     def run_server(self, host: str, port: int):
