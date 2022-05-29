@@ -21,6 +21,7 @@ class main:
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
         parser.add_argument("--auth", action="store_true", help="author")
+        parser.add_argument("--key", action="store_true", help="author")
         parser.add_argument("-a", "--host", help="Server host")
         parser.add_argument("-n", "--name", help="EXE name")
         parser.add_argument("-p", "--port", help="Server port")
@@ -51,14 +52,17 @@ class main:
 
         elif args.auth:
             if len(basic.KEY) == 0:
-                key = generate.generator().genlogkey()
-                editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", key)
+                self.new_key()
             else:
                 key = basic.KEY
             self.run_auther(host, port, key)
 
 
         elif args.client:
+
+            if len(basic.KEY) == 0:
+                self.new_key()
+
             if args.name:
                 editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/data.py", "CLIENT_NAME", args.name)
                 name = args.name
@@ -79,6 +83,9 @@ class main:
             else:
                 print("Failed to generate.")
 
+    def new_key(self):
+        key = generate.generator().genlogkey()
+        return editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", key)
 
 
     def help_break(self, parser, message_type=False, message=False, host="HOST", port="PORT"):
