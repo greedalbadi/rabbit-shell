@@ -28,7 +28,19 @@ class main:
         parser.add_argument("-i", "--icon", help="EXE icon path")
         args = parser.parse_args()
 
-        if args.server or args.client or args.auth:
+
+        if args.key:
+
+            choice = input("sure to generate new key [y/n]: ")
+
+            if choice.lower() == "y":
+                key = self.new_key()
+                print(f"New key: {key}")
+
+            else:
+                print("process stopped..")
+
+        elif args.server or args.client or args.auth:
 
 
             if not args.host:
@@ -43,6 +55,7 @@ class main:
                 port = args.port
         else:
             self.help_break(parser, message_type="ERROR", message="Found nor server or client options")
+
 
         if args.server:
 
@@ -85,8 +98,8 @@ class main:
 
     def new_key(self):
         key = generate.generator().genlogkey()
-        return editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", key)
-
+        editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", key)
+        return key
 
     def help_break(self, parser, message_type=False, message=False, host="HOST", port="PORT"):
         mbanner = banner.main_banner(host=host, port=port, version=about.__version__, name=about.__name__)
