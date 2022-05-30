@@ -21,24 +21,29 @@ class main:
         parser.add_argument("--server", action="store_true", help="server")
         parser.add_argument("--client", action="store_true", help="client")
         parser.add_argument("--auth", action="store_true", help="author")
-        parser.add_argument("--key", action="store_true", help="author")
+        parser.add_argument("--key", action="store_true", help="author key")
         parser.add_argument("-a", "--host", help="Server host")
         parser.add_argument("-n", "--name", help="EXE name")
         parser.add_argument("-p", "--port", help="Server port")
         parser.add_argument("-i", "--icon", help="EXE icon path")
+        parser.add_argument("-k", "--inkey", help="input author key")
         args = parser.parse_args()
 
 
         if args.key:
 
-            choice = input("sure to generate new key [y/n]: ")
-
-            if choice.lower() == "y":
-                key = self.new_key()
-                print(f"New key: {key}")
-
+            if args.inkey:
+                editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", str(args.inkey))
+                print(f"Inserted key: {args.inkey}")
             else:
-                print("process stopped..")
+                choice = input("sure to generate new key [y/n]: ")
+
+                if choice.lower() == "y":
+                    key = self.new_key()
+                    print(f"New key: {key}")
+
+                else:
+                    print("process stopped..")
 
         elif args.server or args.client or args.auth:
 
@@ -64,8 +69,11 @@ class main:
 
 
         elif args.auth:
-            if len(basic.KEY) == 0:
-                self.new_key()
+            if args.inkey:
+                key = args.inkey
+
+            elif len(basic.KEY) == 0:
+                key = self.new_key()
             else:
                 key = basic.KEY
             self.run_auther(host, port, key)
