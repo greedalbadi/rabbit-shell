@@ -12,10 +12,10 @@ class server_side:
 
 
     def create_socket(self, host, port):
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.bind((host, int(port)))
-        server.listen()
-        return server
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.bind((host, int(port)))
+        self.server.listen()
+        return self.server
     def response(self, client):
         res = client.recv(data.BUFFER_SIZE)
         return pickle.loads(res)
@@ -61,6 +61,39 @@ class server_side:
         path, res = self.response(client)
         return path
 
+    def auther_response(self, auther):
+
+        res = auther.recv(data.BUFFER_SIZE)
+        pickle.loads(res)
+        return pickle.loads(res)
+
+
+    def auther_send(self, auther, path, dt):
+
+        dt = [path, dt]
+
+        dt = pickle.dumps(dt)
+
+        return auther.send(dt)
+
+    def auther_clients_list(self, ls):
+        table = prettytable.PrettyTable()
+        table.field_names = [data.IP_ADDRESS, data.STATUS]
+
+        for lis in ls:
+            print(tuple(lis))
+            client, address = tuple(lis)
+            try:
+                ping_data = self.encode_data(data.CLIENT_PING_DATA)
+                client.send(ping_data)
+                status = data.ONLINE_STATUS
+            except:
+                status = data.OFFLINE_STATUS
+
+            table.add_row([address, status])
+        return table
+
+
 class filetrans:
     global serverside
     serverside = server_side()
@@ -69,6 +102,13 @@ class filetrans:
 
         return serverside.create_socket(host, int(port))
 
+
+    def sendbytes(self, client, filename, byte):
+
+        ls = [filename, byte]
+        dt = pickle.dumps(ls)
+        client.send(dt)
+        return
 
 
     def sendfile(self, client, filename):
@@ -79,6 +119,15 @@ class filetrans:
         client.send(data)
         print("file sent.")
         return file.close()
+
+    def recv_bytes(self, client):
+        res = client.recv(BUFFER_SIZE)
+        filename, byte = pickle.loads(res)
+
+        return filename, byte
+
+
+
 
 
     def recvfile(self, client):
