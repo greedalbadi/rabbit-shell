@@ -1,7 +1,8 @@
 import subprocess
 import os
-
-
+import random
+import rabbit_shell
+from rabbit_shell.background import editor
 
 class generator:
 
@@ -28,3 +29,18 @@ class generator:
             return "python"
         else:
             return "python3"
+
+
+    def genlogkey(self, length=16):
+
+        chars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890"
+        key = ""
+        for _ in range(int(length)):
+
+            key += random.choice(chars)
+        return key
+
+
+
+
+

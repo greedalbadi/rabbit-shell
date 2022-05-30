@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import datetime
+import socket
 import sys
 import threading
 
@@ -46,6 +47,8 @@ class server:
         self.filetrans_clients = []
         self.joined_date = []
         self.addresses = []
+        self.auther_clients = {}
+        self.auther = {}
         self.current_client = None
         self.server = server_side.create_socket(host, port)
         self.filetrans_server = filetrans.create_filetrans_socket(str(host), int(int(port) - int(data.FILETRANS_PORT)))
@@ -92,10 +95,22 @@ class server:
                 """
 
                 client, address = self.server.accept()
-                print(f"Client connected: {address}")
                 self.clients.append(client)
                 self.addresses.append(address)
                 self.joined_date.append(str(datetime.datetime.now()))
+                try:
+                    key = client.recv(1048).decode(data.CODE_FORMATE)
+                    if "root:" in key:
+                        if key not in self.auther:
+                            self.auther_clients[key.split("root:")[1]] = []
+
+                        self.auther[key] = client
+                        threading.Thread(target=self.authers_listner, args=[client, key.split("root:")[1]]).start()
+                    else:
+                        if key not in self.auther:
+                            self.auther_clients[key].append([client, address])
+                except:
+                    pass
             except:
                 pass
 
@@ -118,18 +133,18 @@ class server:
                 """
                 client, address = self.filetrans_server.accept()
                 self.filetrans_clients.append(client)
-                threading.Thread(target=filetrans.recvfile, args=[client]).start()
+                '''threading.Thread(target=filetrans.recvfile, args=[client]).start()'''
             except:
                 pass
 
 
-    def clients_list(self):
+    def clients_list(self, clients, address, joined_date):
         """
         list online and offline clients
 
         :return: table
         """
-        return server_side.checkon_clients(self.clients, self.addresses, self.joined_date)
+        return server_side.checkon_clients(clients, address, joined_date)
 
 
     def sendcommand(self, data: str):
@@ -156,6 +171,75 @@ class server:
         :return: return to default input
         """
         self.input_mode = default
+
+
+    def authers_listner(self, auther, key):
+
+        while True:
+
+            try:
+                index, command = server_side.auther_response(auther)
+
+                try:
+                    client = self.auther_clients[key][int(index)][0]
+                except:
+                    client = None
+
+                if command == data.LIST_CLIENTS:
+                    ls = self.auther_clients[key]
+                    table = server_side.auther_clients_list(ls)
+
+
+                    server_side.auther_send(auther, "", str(table))
+
+
+                elif command[:8] == "reqfile:":
+                    filetrans_client_index = self.clients.index(client)
+                    filetrans_client = self.filetrans_clients[filetrans_client_index]
+                    server_side.sendcommand(client, command)
+
+                    path, byte = filetrans.recv_bytes(filetrans_client)
+                    server_side.auther_send(auther, path, byte)
+
+
+
+                elif command[:len(data.SEND_FILE)] == data.SEND_FILE:
+
+                    filetrans_auther_index = self.clients.index(auther)
+                    filetrans_auther = self.filetrans_clients[filetrans_auther_index]
+                    filetrans_client_index = self.clients.index(client)
+                    filetrans_client = self.filetrans_clients[filetrans_client_index]
+                    filename, byte = filetrans.recv_bytes(filetrans_auther)
+                    filetrans.sendbytes(filetrans_client, filename, byte)
+
+
+                elif client != None:
+
+
+                    server_side.sendcommand(client, command)
+                    path, response = server_side.response(client)
+                    server_side.auther_send(auther, path, response)
+
+                else:
+                    server_side.auther_send(auther, "", str("[SERVER] error while in the process, make sure to chose a valid client or valid command."))
+
+
+            except Exception as e:
+                print(e)
+                try:
+                    server_side.auther_send(auther, "", f"[SERVER]: {e}")
+                except socket.error:
+                    break
+
+
+
+
+
+
+
+
+
+
     def main(self):
         """
         starts with accepting clients
@@ -189,9 +273,8 @@ class server:
                 -   send data to current client
                 """
                 if command == data.LIST_CLIENTS:
-                    self.server.settimeout(int(data.TIMEOUT))
 
-                    print(self.clients_list())
+                    print(self.clients_list(self.clients, self.addresses, self.joined_date))
 
                 elif command[:len(data.SET_CLIENT)] == data.SET_CLIENT:
 
@@ -219,13 +302,8 @@ class server:
                         BANNER = banner.main_banner(self.host, self.port, about.__version__, about.__name__)
                         print(BANNER)
                 elif command == data.SERVERINFO:
-                    dic = {
-                        "name": about.__name__,
-                        "version": about.__version__,
-                        "host": self.host,
-                        "port": self.port
-                    }
-                    print(dic)
+                    dt = backstuff.server_info()
+                    print(dt)
 
                 else:
                     if self.current_client != None:
