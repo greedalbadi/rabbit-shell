@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import datetime
+import pickle
 import socket
 import sys
 import threading
@@ -99,16 +100,25 @@ class server:
                 self.addresses.append(address)
                 self.joined_date.append(str(datetime.datetime.now()))
                 try:
-                    key = client.recv(1048).decode(data.CODE_FORMATE)
+
+
+                    payload = client.recv(1048)
+                    payload = pickle.loads(payload)
+                    key = payload["key"]
+
                     if "root:" in key:
                         if key not in self.auther:
                             self.auther_clients[key.split("root:")[1]] = []
 
+
+
                         self.auther[key] = client
                         threading.Thread(target=self.authers_listner, args=[client, key.split("root:")[1]]).start()
+
+
                     else:
                         if key not in self.auther:
-                            self.auther_clients[key].append([client, address])
+                            self.auther_clients[key].append([client, address, payload])
                 except:
                     pass
             except:
@@ -176,7 +186,6 @@ class server:
     def authers_listner(self, auther, key):
 
         while True:
-
             try:
                 index, command = server_side.auther_response(auther)
 
