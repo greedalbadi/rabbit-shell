@@ -1,7 +1,7 @@
 import pickle
 import socket
 from rabbit_shell.controller import client_side, server_side
-from rabbit_shell.data import data, about
+from rabbit_shell.data import data, about, basic
 from rabbit_shell.background import backstuff
 from rabbit_shell.data.banners import banner
 
@@ -34,7 +34,11 @@ class Auther:
 
         key = f"root:{key}"
 
-        self.server.send(key.encode(data.CODE_FORMATE))
+        logdata = {
+            "key": key
+        }
+
+        self.server.send(pickle.dumps(logdata))
 
     def connect_tofiletrans(self, host, port):
         """
@@ -165,4 +169,6 @@ class Auther:
                             print(resp)
 
 
-
+if "__main__" == __name__:
+    auth = Auther(basic.HOST, int(basic.PORT), basic.KEY)
+    auth.runtime()
