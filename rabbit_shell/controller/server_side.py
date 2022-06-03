@@ -78,11 +78,11 @@ class server_side:
 
     def auther_clients_list(self, ls):
         table = prettytable.PrettyTable()
-        table.field_names = [data.USENUM, data.IP_ADDRESS, data.STATUS]
-
+        table.field_names = [data.USENUM, data.IP_ADDRESS, "LOCAL IP", "os", "name", data.STATUS]
+        index = 0
         for lis in ls:
-            print(tuple(lis))
-            client, address = tuple(lis)
+            client, address, payload = tuple(lis)
+
             try:
                 ping_data = self.encode_data(data.CLIENT_PING_DATA)
                 client.send(ping_data)
@@ -90,7 +90,8 @@ class server_side:
             except:
                 status = data.OFFLINE_STATUS
 
-            table.add_row([ls.index(client), address, status])
+            table.add_row([index, address, payload["ip"], payload["os"], payload["name"], status])
+            index += 1
         return table
 
 
