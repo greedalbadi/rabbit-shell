@@ -102,13 +102,23 @@ class Auther:
 
             if command[:len(data.SET_CLIENT)] == data.SET_CLIENT:
                 self.index = int(command.split()[1])
+                self.send(self.server, self.index, data.PATHPING)
+                input_mode, resp = self.response(self.server)
+                if len(input_mode) > 2:
+                    self.input_mode = input_mode
+                if len(resp) != 0:
+                    print(resp)
 
 
 
             else:
-                if len(command) != 0:
+                if command == data.QUIT:
+                    self.input_mode = data.INPUT_MODE
+                    self.index = None
+                elif len(command) != 0:
 
                     self.send(self.server, self.index, command)
+
 
                     if command == data.LIST_CLIENTS:
                         _ , table = self.response(self.server)
@@ -156,12 +166,15 @@ class Auther:
                         backstuff.clear()
 
 
+
+
                     elif command == data.SERVERINFO:
                         dt = backstuff.server_info()
                         print(dt)
 
 
                     else:
+
                         input_mode, resp = self.response(self.server)
                         if len(input_mode) > 2:
                             self.input_mode = input_mode

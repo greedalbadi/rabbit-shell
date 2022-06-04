@@ -189,6 +189,7 @@ class server:
             try:
                 index, command = server_side.auther_response(auther)
 
+
                 try:
                     client = self.auther_clients[key][int(index)][0]
                 except:
@@ -200,6 +201,8 @@ class server:
 
 
                     server_side.auther_send(auther, "", str(table))
+
+
 
 
                 elif command[:8] == "reqfile:":
@@ -228,6 +231,8 @@ class server:
                     server_side.sendcommand(client, command)
                     path, response = server_side.response(client)
                     server_side.auther_send(auther, path, response)
+
+
 
                 else:
                     server_side.auther_send(auther, "", str("[SERVER] error while in the process, make sure to chose a valid client or valid command."))
