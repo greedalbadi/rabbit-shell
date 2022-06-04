@@ -40,7 +40,9 @@ CLIENT_NAME = "client"
 WIN_STARTUP_PATH = f"C:\\Users\\{os.getlogin()}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 DEFAULT_ICON = "data\\images\\logoicon.ico"
 
-
+API_LINK = {
+    "ipify": "api.ipify.org"
+}
 
 '''def json_change_value(key, value):
     file = open("data.json", "r")

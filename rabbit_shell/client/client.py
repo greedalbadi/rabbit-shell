@@ -81,7 +81,6 @@ class Rever:
             """
             try:
                 res = self.filetrans_server.recv(dt.BUFFER_SIZE)
-                print(res)
                 client_side.filetrans_recv(response=res)
                 """
                 when file is received it goes to
@@ -176,7 +175,7 @@ class Rever:
         
         """
         self.connect(self.host, self.port)
-        self.server.send(str(basic.KEY).encode("UTF-8"))
+        self.server.send(client_side.logdata())
         self.connect_tofiletrans(self.host, self.port - dt.FILETRANS_PORT)
         """
         starts filetrans receiving thread
