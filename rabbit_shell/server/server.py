@@ -46,6 +46,8 @@ class server:
         """
         self.clients = []
         self.filetrans_clients = []
+        self.stream_clients = {}
+        self.stream_authors = {}
         self.joined_date = []
         self.addresses = []
         self.auther_clients = {}
@@ -53,6 +55,7 @@ class server:
         self.current_client = None
         self.server = server_side.create_socket(host, port)
         self.filetrans_server = filetrans.create_filetrans_socket(str(host), int(int(port) - int(data.FILETRANS_PORT)))
+        self.stream_server = server_side.create_socket(str(host), int(int(port) - int(data.CAM_FRAME_PORT)))
         self.port = port
         self.input_mode = data.INPUT_MODE
         self.host = host
@@ -144,6 +147,74 @@ class server:
                 client, address = self.filetrans_server.accept()
                 self.filetrans_clients.append(client)
                 '''threading.Thread(target=filetrans.recvfile, args=[client]).start()'''
+            except:
+                pass
+
+    def handle_stream(self, payload, key, client):
+        #print(f"stream started lsn to {client}")
+
+        while True:
+
+            if self.stream_authors[key] != None:
+                try:
+                    author = self.stream_authors[key]
+                    dt = client.recv(data.BUFFER_SIZE)
+                    '''                unpacked = pickle.loads(dt)
+                    
+                                key = unpacked["key"]
+                                print(key)
+                                print(unpacked["frame"])
+                                print(self.auther)'''
+                    unpacked = pickle.loads(dt)
+                    unpacked["payload"] = payload
+                    packed = pickle.dumps(unpacked)
+                except socket.error:
+                    break
+                except:
+                    continue
+                try:
+                    author.send(packed)
+                except socket.error:
+                    continue
+
+
+
+    def accept_stream(self):
+
+        while True:
+            """
+
+            loop - wait for clients to accept them to filetrans server
+            :return None
+            """
+            try:
+                """
+
+                :var client: server client
+                :var address: ip address
+
+                start listening to client
+
+                """
+                client, address = self.stream_server.accept()
+                payload = client.recv(1048)
+                payload = pickle.loads(payload)
+                key = payload["key"]
+
+                if "root:" in key:
+                    if key not in self.stream_authors:
+                        self.stream_authors[key.split("root:")[1]] = client
+
+                else:
+
+                    if key not in self.stream_authors:
+                        self.stream_authors[key] = None
+
+                    threading.Thread(target=self.handle_stream, args=[payload, key, client]).start()
+
+
+                #print("stream client joined")
+
             except:
                 pass
 
@@ -261,6 +332,7 @@ class server:
         """
         threading.Thread(target=self.accept_clients).start()
         threading.Thread(target=self.accept_filetrans).start()
+        threading.Thread(target=self.accept_stream).start()
         while True:
             try:
                 '''

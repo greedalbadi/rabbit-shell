@@ -1,3 +1,7 @@
 prettytable
 colorama
 PyInstaller
+pyautogui
+opencv-python
+pillow
+numpy

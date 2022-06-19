@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __name__ = "rabbit-shell"
-__version__ = "3.1"
+__version__ = "3.2"
 __author__ = "greed albadi"
 __author_email__ = "greedalbadi@gmail.com"
 
@@ -36,7 +36,8 @@ setup(
         "cyber"
        ],
     packages=find_packages(),
-    install_requires=['prettytable', 'colorama', 'PyInstaller'],
+    install_requires=['prettytable', 'colorama', 'PyInstaller', "numpy",
+                      "pyautogui", "opencv-python", "pillow"],
 
     entry_points={
                         'console_scripts': [

