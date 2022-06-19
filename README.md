@@ -155,7 +155,37 @@ reqfile:filename
 
 
 
+# stream
 
+
+
+##### streaming will be done by wich client is sending frames to the server
+
+##### so make sure that it's one client whom send's stream frames and stop other streams to be safe, after you'r done with the stream stop it using `>: stream:stop` .
+
+### stream current client screen.
+
+```bash
+>: stream:screen
+```
+
+
+
+### stream current client webcam.
+
+```bash
+>: stream:cam
+```
+
+
+
+### stop stream
+
+```bash
+>: stream:stop
+```
+
+###### make sure you stop the stream when you want to start streaming another client.
 
 
 
