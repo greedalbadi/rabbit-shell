@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __name__ = "rabbit-shell"
-__version__ = "3.2.2"
+__version__ = "3.2.3"
 __author__ = "greed albadi"
 __author_email__ = "greedalbadi@gmail.com"
 
@@ -37,7 +37,7 @@ setup(
        ],
     packages=find_packages(),
     install_requires=['prettytable', 'colorama', 'PyInstaller', "numpy",
-                      "pyautogui", "opencv-python", "pillow"],
+                      "pyautogui", "opencv-python==4.5.3.56", "pillow"],
 
     entry_points={
                         'console_scripts': [
