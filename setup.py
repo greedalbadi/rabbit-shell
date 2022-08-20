@@ -37,7 +37,7 @@ setup(
        ],
     packages=find_packages(),
     install_requires=['prettytable', 'colorama', 'PyInstaller', "numpy",
-                      "pyautogui", "opencv-python", "pillow"],
+                      "pyautogui", "opencv-python==4.5.3.56", "pillow"],
 
     entry_points={
                         'console_scripts': [
