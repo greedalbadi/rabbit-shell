@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __name__ = "rabbit-shell"
-__version__ = "3.2.3"
+__version__ = "3.3.3"
 __author__ = "greed albadi"
 __author_email__ = "greedalbadi@gmail.com"
 
