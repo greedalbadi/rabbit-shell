@@ -174,7 +174,7 @@ rsb --key
 ### Request file from client.
 
 ```bash
-reqfile:filename
+>: reqfile:filename
 ```
 
 
