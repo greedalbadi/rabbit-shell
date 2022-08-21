@@ -35,15 +35,30 @@ class main:
             if args.inkey:
                 editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", str(args.inkey))
                 print(f"Inserted key: {args.inkey}")
+
             else:
-                choice = input("sure to generate new key [y/n]: ")
+                choice = input("[1] generate new key.\n[2] insert new key.\n[3] show current key.\n>:  ")
 
-                if choice.lower() == "y":
-                    key = self.new_key()
-                    print(f"New key: {key}")
+                if int(choice) == 1:
 
-                else:
-                    print("process stopped..")
+                    vald = input("making sure you want to generate [y/n]: ")
+
+                    if vald == "y":
+                        key = self.new_key()
+                        print(f"New key: {key}")
+
+                    else:
+                        print("process stopped..")
+
+                elif int(choice) == 2:
+
+                    insert_key = input("insert key: ")
+                    editor.edit_basicvar(f"{os.path.dirname(rabbit_shell.__file__)}/data/basic.py", "KEY", insert_key)
+                    print(f"Inserted key: {args.inkey}")
+
+                elif int(choice) == 3:
+                    print(f"current key: {basic.KEY}")
+
 
         elif args.server or args.client or args.auth:
 
