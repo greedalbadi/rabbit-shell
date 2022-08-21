@@ -4,7 +4,7 @@
 
 ###### Rabbit shell advanced reverse shell tool.
 
-![tool](rabbit_shell\data\images\Capture.png)
+![tool](https://i.postimg.cc/kXjvMvy3/Capture.png)
 
 ##  Installation.
 
