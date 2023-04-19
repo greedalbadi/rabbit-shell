@@ -1,5 +1,7 @@
-PyQt5
-PyQt5-Qt5
-PyQt5-sip
-pywin32
-random
+prettytable
+colorama
+PyInstaller
+pyautogui
+opencv-python==4.5.3.56
+pillow
+numpy
